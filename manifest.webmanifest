@@ -1,0 +1,24 @@
+{
+  "name": "donorbook — blood donation eligibility & next-donation-date calculator",
+  "short_name": "donorbook",
+  "description": "Check blood-donation eligibility, compute the exact next-donation date from cited national rules, and keep a private on-device donor logbook. Works fully offline.",
+  "start_url": ".",
+  "scope": ".",
+  "display": "standalone",
+  "background_color": "#1D1109",
+  "theme_color": "#1D1109",
+  "icons": [
+    {
+      "src": "icon-192.png",
+      "sizes": "192x192",
+      "type": "image/png",
+      "purpose": "any maskable"
+    },
+    {
+      "src": "icon-512.png",
+      "sizes": "512x512",
+      "type": "image/png",
+      "purpose": "any maskable"
+    }
+  ]
+}

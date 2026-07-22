@@ -1,0 +1,359 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta http-equiv="Content-Security-Policy" content="default-src 'self'; connect-src 'none'; img-src 'self' data:; base-uri 'none'; form-action 'none'; frame-ancestors 'none'; object-src 'none'">
+  <title>donorbook — when can I donate blood again? eligibility &amp; next-donation-date calculator</title>
+  <meta name="description" content="Check blood-donation eligibility and get the exact date you can next donate, per cited NBTC India, American Red Cross and UK NHSBT rules — with a private on-device donor logbook. Works fully offline.">
+  <meta name="color-scheme" content="dark light">
+  <link rel="canonical" href="https://sreenivas-sadhu-prabhakara.github.io/donorbook/">
+  <meta name="robots" content="index, follow, max-image-preview:large">
+  <meta name="author" content="Sreenivas Sadhu Prabhakara">
+  <meta name="keywords" content="when can I donate blood again, blood donation eligibility, next donation date calculator, blood donor logbook, NBTC India, American Red Cross eligibility, NHSBT who can give blood, blood group compatibility chart, donation interval">
+  <meta name="theme-color" content="#1D1109" media="(prefers-color-scheme: dark)">
+  <meta name="theme-color" content="#F6EFE7" media="(prefers-color-scheme: light)">
+
+  <!-- Open Graph -->
+  <meta property="og:type" content="website">
+  <meta property="og:site_name" content="donorbook">
+  <meta property="og:title" content="donorbook — when can I donate blood again?">
+  <meta property="og:description" content="Blood-donation eligibility check + the exact next-donation date, from cited NBTC / Red Cross / NHSBT rules, plus a private on-device donor logbook. Nothing ever leaves your browser.">
+  <meta property="og:url" content="https://sreenivas-sadhu-prabhakara.github.io/donorbook/">
+  <meta property="og:locale" content="en_US">
+  <meta property="og:image" content="https://sreenivas-sadhu-prabhakara.github.io/donorbook/og-image.png">
+  <meta property="og:image:width" content="1200">
+  <meta property="og:image:height" content="630">
+  <meta property="og:image:alt" content="donorbook — the eligibility ring, filling to your next-eligible date">
+
+  <!-- Twitter -->
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:title" content="donorbook — when can I donate blood again?">
+  <meta name="twitter:description" content="Eligibility pre-check + exact next-donation date (cited NBTC / Red Cross / NHSBT rules) + a private donor logbook. Fully offline.">
+  <meta name="twitter:image" content="https://sreenivas-sadhu-prabhakara.github.io/donorbook/og-image.png">
+  <meta name="twitter:image:alt" content="donorbook — the eligibility ring, filling to your next-eligible date">
+
+  <link rel="stylesheet" href="styles.css">
+  <link rel="icon" href="favicon.svg" type="image/svg+xml">
+  <link rel="apple-touch-icon" href="apple-touch-icon.png">
+  <link rel="manifest" href="manifest.webmanifest">
+
+  <!-- Structured data (data block; not affected by script-src) -->
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "WebApplication",
+    "name": "donorbook",
+    "description": "A blood-donation eligibility pre-check and next-donation-date calculator built from cited NBTC India, American Red Cross and UK NHSBT rules, with a private on-device donor logbook. Runs fully offline.",
+    "url": "https://sreenivas-sadhu-prabhakara.github.io/donorbook/",
+    "applicationCategory": "HealthApplication",
+    "operatingSystem": "Any (modern web browser)",
+    "browserRequirements": "Requires a modern web browser with JavaScript enabled.",
+    "isAccessibleForFree": true,
+    "offers": { "@type": "Offer", "price": "0", "priceCurrency": "USD" },
+    "license": "https://opensource.org/licenses/MIT",
+    "author": { "@type": "Person", "name": "Sreenivas Sadhu Prabhakara" },
+    "softwareVersion": "0.1.0",
+    "featureList": [
+      "Exact next-donation-date calculator by country and donation type",
+      "Guided eligibility pre-check with the cited rule behind every verdict",
+      "Private donor logbook stored only in your browser",
+      "Blood-group compatibility explorer (RBC and plasma)",
+      "Printable wallet donor card, CSV export and .ics calendar file",
+      "Runs 100% offline — no network, no accounts, no tracking"
+    ]
+  }
+  </script>
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "FAQPage",
+    "mainEntity": [
+      {
+        "@type": "Question",
+        "name": "When can I donate blood again?",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "It depends on your country and donation type. For whole blood: the American Red Cross allows donation every 56 days; the UK NHSBT allows men every 12 weeks (84 days) and women every 16 weeks (112 days); India's NBTC allows men every 3 months (90 days) and women every 4 months (120 days). donorbook adds your interval to your last-donation date to give the exact next-eligible date. The blood bank's on-site screening always decides."
+        }
+      },
+      {
+        "@type": "Question",
+        "name": "Am I eligible to donate blood?",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "Common baseline criteria are a minimum age (17 in the US and UK, 18 in India), a minimum weight (about 50 kg / 110 lb in the US and UK, 45 kg in India) and adequate haemoglobin. Recent tattoos, illness, pregnancy, travel to malaria areas, surgery and many medications can defer you. donorbook runs a pre-check against the published general rules, but any medication or detailed-history question resolves to 'ask the blood bank' — it never confirms eligibility."
+        }
+      },
+      {
+        "@type": "Question",
+        "name": "Does donorbook send my donation history anywhere?",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "No. donorbook runs entirely in your browser and its Content-Security-Policy sets connect-src 'none', so the page cannot make any network request even if it tried. Your logbook lives only in this browser's localStorage; clearing site data erases it, so the CSV and print exports are your only backup."
+        }
+      }
+    ]
+  }
+  </script>
+</head>
+<body>
+  <a class="skip-link" href="#calc">Skip to the calculator</a>
+
+  <!-- ============ HERO ============ -->
+  <header class="hero" id="top">
+    <div class="hero__bar">
+      <div class="brand">
+        <svg class="brand__mark" viewBox="0 0 32 32" aria-hidden="true">
+          <circle cx="16" cy="16" r="12" fill="none" stroke="var(--ring-track)" stroke-width="3.4"/>
+          <path d="M16 4 a12 12 0 0 1 10.4 6" fill="none" stroke="var(--accent)" stroke-width="3.4" stroke-linecap="round"/>
+          <path d="M26.4 10 l1.9 -1.1 a2.2 2.2 0 1 1 -0.8 3.2 z" fill="var(--accent)"/>
+        </svg>
+        <span class="brand__name">donorbook</span>
+      </div>
+      <div class="brand__actions">
+        <button type="button" class="ghost" id="themeBtn" aria-pressed="false" title="Toggle light / dark">
+          <span class="ghost__ico" aria-hidden="true">◑</span><span class="ghost__txt">Theme</span>
+        </button>
+      </div>
+    </div>
+
+    <div class="hero__inner">
+      <p class="eyebrow">Eligibility pre-check &middot; next-donation date &middot; private logbook</p>
+      <h1 class="hero__title">Blood donation eligibility check &amp; next-donation-date calculator<span class="hero__sub"> — a private donor logbook</span></h1>
+      <p class="hero__lede">
+        Enter your last donation and get the exact date you can next donate, from the cited national rules
+        (<abbr title="National Blood Transfusion Council">NBTC</abbr> India, American Red Cross, UK NHSBT).
+        Keep your donation history privately on this device — <strong>nothing ever leaves your browser</strong>.
+      </p>
+    </div>
+  </header>
+
+  <main>
+    <!-- ============ TABS ============ -->
+    <nav class="tabs" aria-label="Sections">
+      <div class="tabs__inner" role="tablist">
+        <button class="tab" role="tab" id="tab-calc" aria-controls="panel-calc" aria-selected="true">Next date</button>
+        <button class="tab" role="tab" id="tab-check" aria-controls="panel-check" aria-selected="false" tabindex="-1">Eligibility</button>
+        <button class="tab" role="tab" id="tab-log" aria-controls="panel-log" aria-selected="false" tabindex="-1">Logbook</button>
+        <button class="tab" role="tab" id="tab-groups" aria-controls="panel-groups" aria-selected="false" tabindex="-1">Blood groups</button>
+        <button class="tab" role="tab" id="tab-sources" aria-controls="panel-sources" aria-selected="false" tabindex="-1">Sources</button>
+      </div>
+    </nav>
+
+    <!-- ============ PANEL: NEXT DATE ============ -->
+    <section class="panel-view" id="panel-calc" role="tabpanel" aria-labelledby="tab-calc">
+      <h2 class="q" id="calc">When can I donate blood again?</h2>
+      <p class="q__note">Answer three things. The exact date is computed on your device.</p>
+
+      <div class="calc">
+        <form class="calc__form" id="calcForm" novalidate>
+          <div class="field">
+            <label for="calcCountry">Country</label>
+            <select id="calcCountry" name="country"></select>
+          </div>
+          <div class="field">
+            <label for="calcType">Donation type</label>
+            <select id="calcType" name="type"></select>
+          </div>
+          <div class="field" id="calcSexField">
+            <label for="calcSex">Sex <span class="field__sub">(some rules split by sex)</span></label>
+            <select id="calcSex" name="sex">
+              <option value="any">Prefer not to say / not sure</option>
+              <option value="male">Male</option>
+              <option value="female">Female</option>
+            </select>
+          </div>
+          <div class="field">
+            <label for="calcLast">Last donation date</label>
+            <input type="date" id="calcLast" name="last" max="2100-12-31">
+          </div>
+        </form>
+
+        <div class="calc__out" aria-live="polite">
+          <div class="ring" id="ring" role="img" aria-label="Eligibility countdown ring">
+            <svg viewBox="0 0 200 200" class="ring__svg" aria-hidden="true">
+              <g class="ring__ticks" id="ringTicks"></g>
+              <circle class="ring__track" cx="100" cy="100" r="82"/>
+              <circle class="ring__fill" id="ringFill" cx="100" cy="100" r="82"
+                      transform="rotate(-90 100 100)"/>
+              <g id="ringNotch"></g>
+            </svg>
+            <div class="ring__center">
+              <span class="ring__big" id="ringBig">—</span>
+              <span class="ring__small" id="ringSmall">enter a last-donation date</span>
+            </div>
+          </div>
+
+          <div class="verdict" id="calcVerdict"></div>
+          <div class="calc__rule" id="calcRule"></div>
+          <div class="calc__actions">
+            <button type="button" class="ghost" id="icsBtn" disabled>Download reminder (.ics)</button>
+            <button type="button" class="ghost" id="logFromCalcBtn" disabled>Log this donation</button>
+          </div>
+        </div>
+      </div>
+
+      <p class="banner" role="note">
+        <span class="banner__ico" aria-hidden="true">◆</span>
+        The blood bank's on-site screening always decides. This is a pre-check from published general rules, not a confirmation of eligibility.
+      </p>
+    </section>
+
+    <!-- ============ PANEL: ELIGIBILITY ============ -->
+    <section class="panel-view is-hidden" id="panel-check" role="tabpanel" aria-labelledby="tab-check" hidden>
+      <h2 class="q">Guided eligibility pre-check</h2>
+      <p class="q__note">Every verdict shows the exact rule, its source and when it was last verified. Medication and detailed-history questions always resolve to “ask the blood bank”.</p>
+
+      <form class="check" id="checkForm" novalidate>
+        <div class="check__row">
+          <div class="field">
+            <label for="chkCountry">Country</label>
+            <select id="chkCountry" name="country"></select>
+          </div>
+          <div class="field">
+            <label for="chkSex">Sex</label>
+            <select id="chkSex" name="sex">
+              <option value="any">Prefer not to say</option>
+              <option value="male">Male</option>
+              <option value="female">Female</option>
+            </select>
+          </div>
+          <div class="field field--num">
+            <label for="chkAge">Age</label>
+            <input type="number" id="chkAge" name="age" min="0" max="120" step="1" inputmode="numeric" placeholder="years">
+          </div>
+          <div class="field field--num">
+            <label for="chkWeight">Weight (kg)</label>
+            <input type="number" id="chkWeight" name="weight" min="0" max="300" step="0.5" inputmode="decimal" placeholder="kg">
+          </div>
+          <div class="field field--num">
+            <label for="chkHb">Haemoglobin <span class="field__sub">(g/dl, optional)</span></label>
+            <input type="number" id="chkHb" name="hb" min="0" max="25" step="0.1" inputmode="decimal" placeholder="if known">
+          </div>
+        </div>
+
+        <fieldset class="deferrals">
+          <legend>In the recent past, has any of these happened? Tick it and give the date.</legend>
+          <div class="deferrals__grid" id="deferralGrid"></div>
+        </fieldset>
+      </form>
+
+      <div class="verdict verdict--big" id="checkVerdict" aria-live="polite"></div>
+      <ul class="reasons" id="checkReasons"></ul>
+    </section>
+
+    <!-- ============ PANEL: LOGBOOK ============ -->
+    <section class="panel-view is-hidden" id="panel-log" role="tabpanel" aria-labelledby="tab-log" hidden>
+      <h2 class="q">Your private donor logbook</h2>
+      <p class="q__note">Stored only in this browser. Export a CSV to keep a backup — clearing site data erases the log.</p>
+
+      <form class="logform" id="logForm" novalidate>
+        <div class="field"><label for="logDate">Date</label><input type="date" id="logDate" name="date" required max="2100-12-31"></div>
+        <div class="field"><label for="logType">Type</label><select id="logType" name="type"></select></div>
+        <div class="field"><label for="logCentre">Centre</label><input type="text" id="logCentre" name="centre" maxlength="80" placeholder="e.g. Red Cross, Bengaluru"></div>
+        <div class="field field--grow"><label for="logNotes">Notes</label><input type="text" id="logNotes" name="notes" maxlength="200" placeholder="optional"></div>
+        <button type="submit" class="primary" id="logAddBtn">Add to logbook</button>
+      </form>
+
+      <div class="logsummary" id="logSummary"></div>
+
+      <div class="logactions">
+        <button type="button" class="ghost" id="csvBtn">Export CSV</button>
+        <button type="button" class="ghost" id="cardBtn">Print donor card</button>
+        <button type="button" class="ghost ghost--danger" id="clearBtn">Delete all data</button>
+        <label class="cardgroup">
+          <span>Blood group</span>
+          <select id="cardGroup"></select>
+        </label>
+        <label class="cardgroup">
+          <span>Name on card</span>
+          <input type="text" id="cardName" maxlength="40" placeholder="optional">
+        </label>
+      </div>
+
+      <div class="logtable-wrap">
+        <table class="logtable" id="logTable">
+          <thead><tr><th>Date</th><th>Type</th><th>Centre</th><th>Notes</th><th class="logtable__x"><span class="visually-hidden">Remove</span></th></tr></thead>
+          <tbody id="logBody"></tbody>
+        </table>
+      </div>
+
+      <!-- Printable wallet card (visible only when printing the card) -->
+      <div class="donorcard" id="donorCard" aria-hidden="true">
+        <div class="donorcard__head">donorbook · donor card</div>
+        <div class="donorcard__grid">
+          <div><span class="donorcard__k">Name</span><span class="donorcard__v" id="dcName">—</span></div>
+          <div><span class="donorcard__k">Blood group</span><span class="donorcard__v" id="dcGroup">—</span></div>
+          <div><span class="donorcard__k">Donations logged</span><span class="donorcard__v" id="dcCount">0</span></div>
+          <div><span class="donorcard__k">Next eligible</span><span class="donorcard__v" id="dcNext">—</span></div>
+        </div>
+        <div class="donorcard__foot">The blood bank's screening always decides. Not medical advice.</div>
+      </div>
+    </section>
+
+    <!-- ============ PANEL: BLOOD GROUPS ============ -->
+    <section class="panel-view is-hidden" id="panel-groups" role="tabpanel" aria-labelledby="tab-groups" hidden>
+      <h2 class="q">Blood-group compatibility explorer</h2>
+      <p class="q__note">Pick your group and see who you can donate to and receive from. Plasma compatibility runs the opposite way — AB is the universal plasma donor.</p>
+
+      <div class="groups__controls">
+        <div class="field field--inline">
+          <label for="groupSel">Your group</label>
+          <select id="groupSel"></select>
+        </div>
+        <div class="segmented" role="radiogroup" aria-label="Component">
+          <label class="seg"><input type="radio" name="mode" value="rbc" checked><span>Red cells</span></label>
+          <label class="seg"><input type="radio" name="mode" value="plasma"><span>Plasma</span></label>
+        </div>
+      </div>
+
+      <div class="groups__cards">
+        <div class="gcard"><h3>Can donate to</h3><div class="gchips" id="donatesTo"></div></div>
+        <div class="gcard"><h3>Can receive from</h3><div class="gchips" id="receivesFrom"></div></div>
+      </div>
+
+      <div class="matrix-wrap">
+        <table class="matrix" id="matrix" aria-label="Blood group compatibility grid"></table>
+      </div>
+      <p class="q__note q__note--src" id="matrixSrc"></p>
+    </section>
+
+    <!-- ============ PANEL: SOURCES ============ -->
+    <section class="panel-view is-hidden" id="panel-sources" role="tabpanel" aria-labelledby="tab-sources" hidden>
+      <h2 class="q">The full ruleset &amp; its sources</h2>
+      <p class="q__note">Every rule in donorbook, with its authority, verbatim quote, source link and last-verified date. Nothing here was authored from memory.</p>
+      <div class="srcfilter">
+        <label for="srcCountry">Filter by country</label>
+        <select id="srcCountry"><option value="all">All countries</option></select>
+      </div>
+      <div class="sources" id="sourcesList"></div>
+    </section>
+  </main>
+
+  <!-- ============ FOOTER ============ -->
+  <footer class="foot">
+    <div class="foot__inner">
+      <p class="foot__disclaimer">
+        <strong>Not medical advice.</strong> donorbook is a pre-check built from the published general criteria of
+        three named authorities (NBTC India, American Red Cross, UK NHSBT). It never confirms eligibility —
+        the blood bank's on-site screening always decides. Rules change and individual blood banks differ;
+        medication and detailed medical-history questions are never computed here.
+      </p>
+      <p class="foot__meta">
+        <span>Runs 100% offline</span><span class="foot__dot">&middot;</span>
+        <span>No network, no accounts</span><span class="foot__dot">&middot;</span>
+        <span>Rules last verified <span id="footVerified">2026-07-22</span></span><span class="foot__dot">&middot;</span>
+        <span>MIT&nbsp;License</span><span class="foot__dot">&middot;</span>
+        <span>&copy; 2026 Sreenivas&nbsp;Sadhu&nbsp;Prabhakara</span>
+      </p>
+    </div>
+  </footer>
+
+  <div class="toast" id="toast" role="status" aria-live="polite"></div>
+
+  <script src="data/rules.js"></script>
+  <script src="data/engine.js"></script>
+  <script src="app.js" defer></script>
+</body>
+</html>
